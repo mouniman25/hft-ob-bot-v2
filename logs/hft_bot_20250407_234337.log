@@ -1,0 +1,2 @@
+2025-04-07 23:43:37,534 - INFO - Fetching historical order book data for BTC/USDT
+2025-04-07 23:43:37,991 - ERROR - Failed to fetch historical data: aiodns needs a SelectorEventLoop on Windows. See more: https://github.com/saghul/aiodns/issues/86
