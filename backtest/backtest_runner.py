@@ -1,7 +1,7 @@
 import sys
 import os
-# Add project root to the module search path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import pandas as pd
 from core.logger import Logger
 from core.ml_strategy import MLStrategy
@@ -44,12 +44,6 @@ class BacktestRunner:
                 })
         metrics_result = self.metrics.calculate_metrics(trades, initial_balance)
         self.logger.info(f"Backtest completed. Final balance: {balance}")
+        # Save the backtest results
+        pd.DataFrame(trades).to_csv('C:/Users/pc/Desktop/hft_ob_bot/backtest/reports/backtest_results.csv')
         return metrics_result
-
-    def parse_order_book(self, order_book_str):
-        # Implement the parsing logic here
-        pass
-
-    def calculate_profit(self, order, order_book):
-        # Implement the profit calculation logic here
-        pass
