@@ -19,14 +19,36 @@ class DataFetcher:
         self.end_str = end_str
 
     def fetch_historical_data(self):
-        klines = client.futures_klines(symbol=self.symbol, interval=self.interval, start_str=self.start_str, end_str=self.end_str)
-        data = pd.DataFrame(klines, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume', 'close_time', 'quote_asset_volume', 'number_of_trades', 'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'])
+        klines = client.futures_klines(
+            symbol=self.symbol, 
+            interval=self.interval, 
+            start_str=self.start_str, 
+            end_str=self.end_str
+        )
+        data = pd.DataFrame(klines, columns=[
+            'timestamp', 'open', 'high', 'low', 'close', 'volume', 'close_time', 
+            'quote_asset_volume', 'number_of_trades', 
+            'taker_buy_base_asset_volume', 'taker_buy_quote_asset_volume', 'ignore'
+        ])
         data['timestamp'] = pd.to_datetime(data['timestamp'], unit='ms')
         data.set_index('timestamp', inplace=True)
+        
+        # Convert numeric columns as needed (here close is used for target)
+        data['close'] = pd.to_numeric(data['close'])
+        
+        # Create target column: 1 if next close is higher, 0 otherwise.
+        data['target'] = (data['close'].shift(-1) > data['close']).astype(int)
+        # Drop last row which gets a NaN target
+        data.dropna(inplace=True)
         return data
 
 async def main():
-    fetcher = DataFetcher(symbol='SOLUSDT', interval=Client.KLINE_INTERVAL_1MINUTE, start_str='1 Jan 2021', end_str='1 Jan 2022')
+    fetcher = DataFetcher(
+        symbol='SOLUSDT', 
+        interval=Client.KLINE_INTERVAL_1MINUTE, 
+        start_str='1 Jan 2021', 
+        end_str='1 Jan 2022'
+    )
     data = fetcher.fetch_historical_data()
     data.to_csv('data/solusdt_historical_data.csv')
     print("Data fetched and saved to data/solusdt_historical_data.csv")
