@@ -3,6 +3,7 @@ import pandas as pd
 from binance.client import Client
 from datetime import datetime
 from dotenv import load_dotenv
+import asyncio
 
 load_dotenv()
 
@@ -32,13 +33,8 @@ class DataFetcher:
         ])
         data['timestamp'] = pd.to_datetime(data['timestamp'], unit='ms')
         data.set_index('timestamp', inplace=True)
-        
-        # Convert numeric columns as needed (here close is used for target)
         data['close'] = pd.to_numeric(data['close'])
-        
-        # Create target column: 1 if next close is higher, 0 otherwise.
         data['target'] = (data['close'].shift(-1) > data['close']).astype(int)
-        # Drop last row which gets a NaN target
         data.dropna(inplace=True)
         return data
 
@@ -50,9 +46,8 @@ async def main():
         end_str='1 Jan 2022'
     )
     data = fetcher.fetch_historical_data()
-    data.to_csv('data/solusdt_historical_data.csv')
-    print("Data fetched and saved to data/solusdt_historical_data.csv")
+    data.to_csv('C:/Users/pc/Desktop/hft_ob_bot/data/datasets/solusdt_historical_data.csv')
+    print("Data fetched and saved to C:/Users/pc/Desktop/hft_ob_bot/data/datasets/solusdt_historical_data.csv")
 
 if __name__ == "__main__":
-    import asyncio
     asyncio.run(main())
