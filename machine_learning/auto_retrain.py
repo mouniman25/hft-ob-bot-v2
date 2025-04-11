@@ -46,4 +46,4 @@ class AutoRetrainer:
                     self.logger.error(f"Retraining failed: {str(e)}")
 
     def start(self):
-        asyncio.create_task(self.retrain_model()) 
+        asyncio.create_task(self.retrain_model())
