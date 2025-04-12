@@ -2,8 +2,6 @@
 __pycache__/
 *.py[cod]
 
-# Ignorer les fichiers de logs
-*.log
 
 # Ignorer les fichiers temporaires et système
 .DS_Store
