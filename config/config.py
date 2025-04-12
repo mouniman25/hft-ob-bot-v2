@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 
 def load_config():
+    """Charge les variables d'environnement et retourne un dictionnaire de configuration"""
     load_dotenv()
     return {
         'api_key': os.getenv('API_KEY'),
