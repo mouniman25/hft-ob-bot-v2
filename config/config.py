@@ -6,7 +6,7 @@ def load_config():
     return {
         'api_key': os.getenv('API_KEY'),
         'api_secret': os.getenv('API_SECRET'),
-        'symbol': 'BTC/USDT',
+        'symbol': 'SOL/USDT',
         'websocket_url': 'wss://stream.binance.com:9443/ws',
         'min_imbalance_threshold': 0.25,
         'base_position_size': 0.001,
