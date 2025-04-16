@@ -2,18 +2,16 @@ import os
 from dotenv import load_dotenv
 
 def load_config():
-    """Charge les variables d'environnement et retourne un dictionnaire de configuration"""
+    """Charge la configuration avec valeurs par défaut"""
     load_dotenv()
     return {
         'api_key': os.getenv('API_KEY'),
         'api_secret': os.getenv('API_SECRET'),
-        'symbol': 'SOL/USDT',
-        'websocket_url': 'wss://stream.binance.com:9443/ws',
-        'min_imbalance_threshold': 0.25,
-        'base_position_size': 0.001,
+        'symbol': 'SOLUSDT',  # Format correct pour Binance
+        'data_path': 'data/datasets/solusdt_historical_data.csv',
+        'min_imbalance_threshold': 0.15,
+        'initial_balance': 10000,
+        'base_position_size': 0.01,
         'max_position': 0.1,
-        'max_loss': -500,
-        'min_training_samples': 1000,
-        'retrain_interval': 3600,
-        'initial_balance': 10000
+        'max_loss': -500
     }
